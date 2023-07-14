@@ -1,18 +1,28 @@
 import React, { useState } from 'react'
+import { WebSocketContext } from '@renderer/context/websocketContext'
+import { useContext, useEffect } from 'react'
 
 type LoginProps = {
   loginStatus: boolean
   loginFunction: React.Dispatch<React.SetStateAction<boolean>>
+  updateUserInfoFunction: React.Dispatch<React.SetStateAction<ProfileProps>>
 }
 
 /* eslint-disable prettier/prettier */
 export const Login = (props: LoginProps): JSX.Element => {
-  const testLogin = {
-    username: 'username',
-    password: 'password'
-  }
+  const socket = useContext(WebSocketContext)
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Socket Connected')
+    })
+    return () => {
+      console.log('Unregistering Events')
+      socket.off('connect')
+    }
+  }, [])
+
   const [userInput, setUserInput] = useState({
-    username: '',
+    email: '',
     password: ''
   })
 
@@ -23,20 +33,33 @@ export const Login = (props: LoginProps): JSX.Element => {
     })
   }
 
-  const handleSubmit = (event: React.SyntheticEvent): void => {
+  const handleSubmit = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault()
-    const { username, password } = userInput
-    if (username === testLogin.username && password === testLogin.password) {
-      props.loginFunction(!props.loginStatus)
-    }
-    alert(`${username} ${password}`)
+    const { email, password } = userInput
+    socket.emit(
+      'loginUser',
+      { email: email, password: password },
+      (response: ProfileProps | boolean) => {
+        if (typeof response === 'boolean') {
+          return
+        }
+        props.updateUserInfoFunction({
+          fname: response.fname,
+          lname: response.lname,
+          email: response.email,
+          loginTime: new Date(),
+          isAdmin: response.isAdmin
+        })
+        props.loginFunction(true)
+      }
+    )
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label>Username</label>
-        <input type="text" name="username" value={userInput.username} onChange={handleUserInput} />
+        <label>email</label>
+        <input type="text" name="email" value={userInput.email} onChange={handleUserInput} />
         <label>Password</label>
         <input
           type="password"

@@ -1,0 +1,1 @@
+const weeklyTime = (): number => {}
