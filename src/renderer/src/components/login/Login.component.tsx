@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { WebSocketContext } from '@renderer/context/websocketContext'
-import { useContext, useEffect } from 'react'
-
+import { socket } from '@renderer/context/websocketContext'
 type LoginProps = {
   loginStatus: boolean
   loginFunction: React.Dispatch<React.SetStateAction<boolean>>
@@ -10,17 +8,6 @@ type LoginProps = {
 
 /* eslint-disable prettier/prettier */
 export const Login = (props: LoginProps): JSX.Element => {
-  const socket = useContext(WebSocketContext)
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Socket Connected')
-    })
-    return () => {
-      console.log('Unregistering Events')
-      socket.off('connect')
-    }
-  }, [])
-
   const [userInput, setUserInput] = useState({
     email: '',
     password: ''
@@ -48,7 +35,8 @@ export const Login = (props: LoginProps): JSX.Element => {
           lname: response.lname,
           email: response.email,
           loginTime: new Date(),
-          isAdmin: response.isAdmin
+          isAdmin: response.isAdmin,
+          id: response.id
         })
         props.loginFunction(true)
       }

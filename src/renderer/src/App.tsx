@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Login } from './components/login/Login.component'
+import { Admin } from './components/admin/admin.component'
 import { Profile } from './components/profile/Profile.component'
-import { WebSocketProvider, socket } from './context/websocketContext'
 
 function App(): JSX.Element {
   const [loginStatus, setLoginStatus] = useState(false)
@@ -10,21 +10,42 @@ function App(): JSX.Element {
     lname: '',
     email: '',
     loginTime: new Date(),
-    isAdmin: false
+    isAdmin: false,
+    id: 0
   })
+  // const socket = useContext(WebSocketContext)
+  // useEffect(() => {
+  //   socket.on('connect', () => {
+  //     console.log('Socket Connected')
+  //   })
+  //   return () => {
+  //     console.log('Unregistering Events')
+  //     socket.off('connect')
+  //   }
+  // }, [])
+  const displayComponent = () => {
+    if (!loginStatus) {
+      return
+    }
+    if (userInfo.isAdmin) {
+      return <Admin {...userInfo} />
+    } else {
+      return <Profile {...userInfo} />
+    }
+  }
   return (
-    <WebSocketProvider value={socket}>
-      <div className="container">
-        {!loginStatus && (
-          <Login
-            loginStatus={loginStatus}
-            loginFunction={setLoginStatus}
-            updateUserInfoFunction={setUserInfo}
-          />
-        )}
-        {loginStatus && <Profile {...userInfo} />}
-      </div>
-    </WebSocketProvider>
+    //<WebSocketProvider value={socket}>
+    <div className="container">
+      {!loginStatus && (
+        <Login
+          loginStatus={loginStatus}
+          loginFunction={setLoginStatus}
+          updateUserInfoFunction={setUserInfo}
+        />
+      )}
+      {displayComponent()}
+    </div>
+    //</WebSocketProvider>
   )
 }
 
