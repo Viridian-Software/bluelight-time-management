@@ -11,7 +11,8 @@ function App(): JSX.Element {
     email: '',
     loginTime: new Date(),
     isAdmin: false,
-    id: 0
+    id: 0,
+    isCurrentlyActive: false
   })
   // const socket = useContext(WebSocketContext)
   // useEffect(() => {

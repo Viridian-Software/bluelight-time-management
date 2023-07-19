@@ -8,13 +8,24 @@ export const Admin = (props: AdminProps): JSX.Element => {
     setUsers(response)
   })
 
+  socket.on('userStatusChanged', () => {
+    socket.emit('findAllUsers', {}, (response: Users[]) => {
+      setUsers(response)
+    })
+  })
+
   return (
     <>
       <div>
         <h1>{`${props.fname} ${props.lname}`}</h1>
         <div>
           {users.map((user) => (
-            <UserCard fname={user.fname} lname={user.lname} userId={user.id} />
+            <UserCard
+              fname={user.fname}
+              lname={user.lname}
+              userId={user.id}
+              isCurrentlyActive={user.isCurrentlyActive}
+            />
           ))}
         </div>
       </div>

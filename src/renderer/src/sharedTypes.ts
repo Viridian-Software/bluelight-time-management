@@ -5,12 +5,14 @@ type ProfileProps = {
   loginTime: Date
   isAdmin: boolean
   id: number
+  isCurrentlyActive: boolean
 }
 
 type UserCardProps = {
   fname: string
   lname: string
   userId: number
+  isCurrentlyActive: boolean
 }
 
 type AdminProps = {
@@ -24,6 +26,7 @@ type Users = {
   lname: string
   email: string
   isAdmin: boolean
+  isCurrentlyActive: boolean
 }
 
 type Sessions = {

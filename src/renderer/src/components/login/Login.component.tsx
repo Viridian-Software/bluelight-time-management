@@ -36,7 +36,8 @@ export const Login = (props: LoginProps): JSX.Element => {
           email: response.email,
           loginTime: new Date(),
           isAdmin: response.isAdmin,
-          id: response.id
+          id: response.id,
+          isCurrentlyActive: response.isCurrentlyActive
         })
         props.loginFunction(true)
       }
