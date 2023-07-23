@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Login } from './components/login/Login.component'
 import { Admin } from './components/admin/admin.component'
 import { Profile } from './components/profile/Profile.component'
+import './global.styles.scss'
 
 function App(): JSX.Element {
   const [loginStatus, setLoginStatus] = useState(false)

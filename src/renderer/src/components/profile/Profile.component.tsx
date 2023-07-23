@@ -7,7 +7,7 @@ export const Profile = (props: ProfileProps): JSX.Element => {
   const [currentStatus, setCurrentStatus] = useState(props.isCurrentlyActive)
 
   const onChangeStatus = () => {
-    socket.emit('setActiveStatus', { id: props.id, status: currentStatus }, (response) => {
+    socket.emit('setActiveStatus', { userId: props.id, status: currentStatus }, (response) => {
       setCurrentStatus(!currentStatus)
     })
 
@@ -33,7 +33,7 @@ export const Profile = (props: ProfileProps): JSX.Element => {
       <p>User Id: {`${props.id}`}</p>
       <p>Session ID: {currentSessionId}</p>
       <p>Activity Status: {`${currentStatus}`}</p>
-      <button onClick={onStartWork}>Start Work</button>
+      <button onClick={onStartWork}>{currentStatus === true ? 'Stop Work' : 'Start Work'}</button>
       <button onClick={onChangeStatus}>Lunch</button>
       <button onClick={onChangeStatus}>AFK</button>
     </>
