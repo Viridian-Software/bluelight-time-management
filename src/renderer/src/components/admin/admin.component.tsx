@@ -2,6 +2,7 @@ import { socket } from '@renderer/context/websocketContext'
 import { UserCard } from '../userCard/userCard.component'
 import { useState } from 'react'
 import './admin.styles.scss'
+import { Reports } from '../reports/reports.component'
 
 export const Admin = (props: AdminProps): JSX.Element => {
   const [users, setUsers] = useState<Users[]>([])
@@ -25,6 +26,7 @@ export const Admin = (props: AdminProps): JSX.Element => {
   const mapUsers = () =>
     users.map((user) => (
       <UserCard
+        key={user.id}
         fname={user.fname}
         lname={user.lname}
         userId={user.id}
@@ -46,9 +48,7 @@ export const Admin = (props: AdminProps): JSX.Element => {
                 Tab 2
               </li>
             </ul>
-            <div className="outlet">
-              {activeTab === 'tab1' ? mapUsers() : <div>HelloWorld</div>}
-            </div>
+            <div className="outlet">{activeTab === 'tab1' ? mapUsers() : <Reports />}</div>
           </div>
         </div>
       </div>

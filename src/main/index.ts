@@ -1,7 +1,14 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+import fs from 'fs'
+import { createObjectCsvWriter } from 'csv-writer'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 function createWindow(): void {
   // Create the browser window.
@@ -13,7 +20,9 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      nodeIntegration: true,
+      contextIsolation: false
     }
   })
 
@@ -69,3 +78,41 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+ipcMain.on('downloadStateData', (event, stateData) => {
+  /* Output of the file should have the headers: fname, lname, sessionid, logintime, logouttime  */
+  let restructuredData: any = []
+  for (let i = 0; i < stateData.length; i++) {
+    let currentUser = stateData[i]
+    for (let j = 0; j < currentUser['Session'].length; j++) {
+      let currentSession = currentUser['Session'][j]
+      restructuredData.push({
+        id: currentUser.id,
+        fname: currentUser.fname,
+        lname: currentUser.lname,
+        sessionId: currentSession.id,
+        loginTime: currentSession.loginTime,
+        logoutTime: currentSession.logoutTime
+      })
+    }
+  }
+  const csvWriter = createObjectCsvWriter({
+    path: 'output.csv',
+    header: [
+      { id: 'id', title: 'ID' },
+      { id: 'fname', title: 'First Name' },
+      { id: 'lname', title: 'Last Name' },
+      { id: 'sessionId', title: 'Session ID' },
+      { id: 'loginTime', title: 'Login Time' },
+      { id: 'logoutTime', title: 'Logout Time' }
+    ]
+  })
+  csvWriter
+    .writeRecords(restructuredData)
+    .then(() => {
+      console.log('Successfully created CSV')
+    })
+    .catch((error) => {
+      console.error('Error Writing File: ', error)
+    })
+  console.log('Current Sessions: ', stateData)
+})
