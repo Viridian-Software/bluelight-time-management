@@ -19,11 +19,9 @@ export const UserCard = (props: UserCardProps): JSX.Element => {
         <table>
           <tr>
             <th>Week to Date</th>
-            <th>Today</th>
           </tr>
           <tr>
             <th>{refactorMilliseconds(time)}</th>
-            <th></th>
           </tr>
         </table>
       </div>

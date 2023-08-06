@@ -1,7 +1,6 @@
 .Tabs {
-  width: 100vw;
-  height: 100vh;
-  background: #053742;
+  width: 80vw;
+  height: 50vh;
   margin: 3.5rem auto 1.5rem;
   padding: 2rem 1rem;
   color: #e8f0f2;
@@ -44,4 +43,18 @@ ul.nav li:hover {
 }
 ul.nav li.active {
   background: #39a2db;
+}
+
+.outlet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }

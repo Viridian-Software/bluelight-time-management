@@ -36,21 +36,20 @@ export const Admin = (props: AdminProps): JSX.Element => {
 
   return (
     <>
-      <div>
-        <div>
-          <div className="Tabs">
-            <h1>{`${props.fname} ${props.lname}`}</h1>
-            <ul className="nav">
-              <li className={activeTab === 'tab1' ? 'active' : ''} onClick={selectTabOne}>
-                Tab 1
-              </li>
-              <li className={activeTab === 'tab2' ? 'active' : ''} onClick={selectTabTwo}>
-                Tab 2
-              </li>
-            </ul>
-            <div className="outlet">{activeTab === 'tab1' ? mapUsers() : <Reports />}</div>
-          </div>
+      <div className="Tabs">
+        <div className="admin-header">
+          <h1>{`${props.fname} ${props.lname}`}</h1>
+          <br />
+          <ul className="nav">
+            <li className={activeTab === 'tab1' ? 'active' : ''} onClick={selectTabOne}>
+              Current Users
+            </li>
+            <li className={activeTab === 'tab2' ? 'active' : ''} onClick={selectTabTwo}>
+              Administration
+            </li>
+          </ul>
         </div>
+        <div className="outlet">{activeTab === 'tab1' ? mapUsers() : <Reports />}</div>
       </div>
     </>
   )

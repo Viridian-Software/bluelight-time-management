@@ -28,6 +28,7 @@ export const Login = (props: LoginProps): JSX.Element => {
       { email: email, password: password },
       (response: ProfileProps | boolean) => {
         if (typeof response === 'boolean') {
+          alert('Incorrect Username or Password. Try Again.')
           return
         }
         props.updateUserInfoFunction({
@@ -45,11 +46,11 @@ export const Login = (props: LoginProps): JSX.Element => {
   }
 
   return (
-    <div>
+    <div className="login-form">
       <form onSubmit={handleSubmit}>
         <label>email</label>
         <input type="text" name="email" value={userInput.email} onChange={handleUserInput} />
-        <label>Password</label>
+        <label className="password-input">Password</label>
         <input
           type="password"
           name="password"
