@@ -1,0 +1,23 @@
+@import '../../global.styles.scss';
+
+.add-user-form {
+  @include flex();
+  text-transform: capitalize;
+  font-size: 2rem;
+  min-width: 80vw;
+  min-height: 80vh;
+  form {
+    @include flex();
+    justify-content: space-evenly;
+    input {
+      background-color: white;
+      color: black;
+    }
+    button {
+      @include button-style();
+    }
+    .password-input {
+      margin-top: 5vh;
+    }
+  }
+}

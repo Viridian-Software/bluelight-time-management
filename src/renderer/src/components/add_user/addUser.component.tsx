@@ -1,5 +1,6 @@
 import { socket } from '@renderer/context/websocketContext'
 import { useState } from 'react'
+import './addUser.styles.scss'
 export const AddUser = () => {
   const [formState, setFormState] = useState({
     fname: '',
@@ -25,7 +26,7 @@ export const AddUser = () => {
     })
   }
   return (
-    <div>
+    <div className="add-user-form">
       <form onSubmit={handleSubmit}>
         <label>First Name</label>
         <input type="text" name="fname" onChange={handleUserInput} value={formState.fname} />
