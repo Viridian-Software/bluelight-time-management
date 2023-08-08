@@ -17,7 +17,9 @@ export const AddUser = () => {
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault()
-    socket.emit('createUser', formState)
+    socket.emit('createUser', formState, (response) => {
+      alert(response)
+    })
     setFormState({
       fname: '',
       lname: '',
