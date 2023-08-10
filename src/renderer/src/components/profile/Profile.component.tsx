@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { socket } from '@renderer/context/websocketContext'
 import { useState } from 'react'
+import './profile.styles.scss'
 
 export const Profile = (props: ProfileProps): JSX.Element => {
   const [currentSessionId, setCurrentSessionId] = useState(-1)
@@ -26,16 +27,20 @@ export const Profile = (props: ProfileProps): JSX.Element => {
       })
     }
   }
+  const lunch = (
+    <div className="lunch-container">
+      <button onClick={onChangeStatus}>Lunch</button>
+      <button onClick={onChangeStatus}>AFK</button>
+    </div>
+  )
   return (
-    <>
+    <div className="profile">
       <h1>{`${props.fname} ${props.lname}`}</h1>
       <h2>{`${props.email}`}</h2>
       <p>User Id: {`${props.id}`}</p>
-      <p>Session ID: {currentSessionId}</p>
       <p>Activity Status: {`${currentStatus}`}</p>
       <button onClick={onStartWork}>{currentStatus === true ? 'Stop Work' : 'Start Work'}</button>
-      <button onClick={onChangeStatus}>Lunch</button>
-      <button onClick={onChangeStatus}>AFK</button>
-    </>
+      {currentStatus === true ? <></> : lunch}
+    </div>
   )
 }

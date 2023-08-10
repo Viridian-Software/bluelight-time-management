@@ -7,6 +7,10 @@ import { AddUser } from '../add_user/addUser.component'
 
 export const Admin = (props: AdminProps): JSX.Element => {
   const [users, setUsers] = useState<Users[]>([])
+  const [activeTab, setActiveTab] = useState({ tab: 'tab2', display: <Reports /> })
+  socket.emit('findAllUsers', {}, (response: Users[]) => {
+    setUsers(response)
+  })
   const mapUsers = () =>
     users.map((user) => (
       <UserCard
@@ -17,10 +21,6 @@ export const Admin = (props: AdminProps): JSX.Element => {
         isCurrentlyActive={user.isCurrentlyActive}
       />
     ))
-  const [activeTab, setActiveTab] = useState({ tab: 'tab2', display: <Reports /> })
-  socket.emit('findAllUsers', {}, (response: Users[]) => {
-    setUsers(response)
-  })
 
   socket.on('userStatusChanged', () => {
     socket.emit('findAllUsers', {}, (response: Users[]) => {

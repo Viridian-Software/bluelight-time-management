@@ -1,0 +1,27 @@
+.active {
+  border: 1px solid white;
+  width: 100%;
+  background: #7bc85f;
+  h2,
+  table,
+  th,
+  tr {
+    background: #7bc85f;
+    color: black;
+    width: 100%;
+  }
+}
+
+.notActive {
+  border: 1px solid black;
+  width: 100%;
+  background: #7bc85f;
+  h2,
+  table,
+  th,
+  tr {
+    background: white;
+    color: black;
+    width: 100%;
+  }
+}

@@ -1,6 +1,7 @@
 import { socket } from '@renderer/context/websocketContext'
 import { useEffect, useState } from 'react'
 import { refactorMilliseconds } from '@renderer/lib/functions'
+import './userCard.styles.scss'
 
 export const UserCard = (props: UserCardProps): JSX.Element => {
   const [time, setTime] = useState(0)
@@ -12,7 +13,7 @@ export const UserCard = (props: UserCardProps): JSX.Element => {
 
   return (
     <>
-      <div>
+      <div className={props.isCurrentlyActive ? 'active' : 'notActive'}>
         <div>
           <h2>{`${props.fname} ${props.lname}: ${props.userId}`}</h2>
         </div>

@@ -1,0 +1,13 @@
+@import '../../global.styles.scss';
+
+.profile {
+  @include flex();
+}
+
+button {
+  @include button-style();
+}
+
+.lunch-container {
+  width: 100%;
+}
