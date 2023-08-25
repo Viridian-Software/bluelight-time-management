@@ -1,10 +1,9 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import fs from 'fs'
 import { createObjectCsvWriter } from 'csv-writer'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -117,3 +116,39 @@ ipcMain.on('downloadStateData', (event, stateData) => {
     })
   console.log('Current Sessions: ', stateData)
 })
+
+const checkIfCursorHasMoved = (mousePoint) => {
+  let newCursorPoint = getCursorPoint()
+  if (newCursorPoint.x === mousePoint.x && newCursorPoint.y === mousePoint.y) {
+    return false
+  } else {
+    return true
+  }
+}
+
+ipcMain.on('user-status-changed', (event, status) => {
+  console.log(status)
+  let currentCursorPoint = getCursorPoint()
+  let myInterval
+  if (!status) {
+    myInterval = setInterval(() => {
+      console.log(currentCursorPoint)
+      if (checkIfCursorHasMoved(currentCursorPoint)) {
+        currentCursorPoint = getCursorPoint()
+      } else {
+        event.sender.send('event-response', false)
+        clearInterval(myInterval)
+      }
+    }, 10000)
+  } else {
+    clearInterval(myInterval)
+  }
+})
+
+function getCursorPoint(): { x: number; y: number } {
+  let newCursorPoint = {
+    x: screen.getCursorScreenPoint().x,
+    y: screen.getCursorScreenPoint().y
+  }
+  return newCursorPoint
+}
