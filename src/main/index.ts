@@ -139,7 +139,7 @@ ipcMain.on('user-status-changed', (event, status) => {
         event.sender.send('event-response', false)
         clearInterval(myInterval)
       }
-    }, 10000)
+    }, 300000)
   } else {
     clearInterval(myInterval)
   }
